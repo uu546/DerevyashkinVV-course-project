@@ -84,4 +84,11 @@ public class Location {
     public void setTemperature(Temperature temperature) {
         this.temperature = temperature;
     }
+
+    /**
+     * Получить полное имя локации (склад + имя)
+     */
+    public String getFullName() {
+        return (warehouse != null ? warehouse.getName() : "") + " - " + name;
+    }
 }
