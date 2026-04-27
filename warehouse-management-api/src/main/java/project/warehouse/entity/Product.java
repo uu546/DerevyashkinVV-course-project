@@ -126,4 +126,12 @@ public class Product {
         this.inventories = inventories;
     }
 
+
+    /**
+     * Проверить, является ли товар скоропортящимся
+     */
+    public boolean isPerishable() {
+        return Boolean.TRUE.equals(isPerishable);
+    }
+
 }
