@@ -72,4 +72,39 @@ public class Inventory {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity != null ? quantity : 0;
     }
+
+    /**
+     * Увеличить количество товара
+     * @param amount количество для добавления (должно быть > 0)
+     */
+    public void addQuantity(int amount) {
+        if (amount > 0) {
+            this.quantity += amount;
+        }
+    }
+
+    /**
+     * Уменьшить количество товара
+     * @param amount количество для списания (должно быть > 0 и не больше текущего остатка)
+     * @throws IllegalArgumentException если недостаточно товара
+     */
+    public void subtractQuantity(int amount) {
+        if (amount <= 0) {
+            return;
+        }
+        if (this.quantity >= amount) {
+            this.quantity -= amount;
+        } else {
+            throw new IllegalArgumentException("Недостаточно товара на складе. Доступно: " + this.quantity + ", запрошено: " + amount);
+        }
+    }
+
+    /**
+     * Проверить, достаточно ли товара
+     * @param requestedQuantity запрашиваемое количество
+     * @return true если достаточно
+     */
+    public boolean isAvailableQuantity(int requestedQuantity) {
+        return this.quantity >= requestedQuantity;
+    }
 }
