@@ -6,7 +6,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import project.warehouse.entity.Product;
 import project.warehouse.foundation.interfaces.IProductRepository;
-
+import java.util.List;
+import java.util.Optional;
+import jakarta.persistence.TypedQuery;
 import java.util.Optional;
 @Repository
 public class ProductRepository  implements IProductRepository {
@@ -17,6 +19,13 @@ public class ProductRepository  implements IProductRepository {
     @Override
     public Optional<Product> findById(Integer id) {
         return Optional.ofNullable(entityManager.find(Product.class, id));
+    }
+
+    @Override
+    public List<Product> findAll() {
+        String jpql = "SELECT p FROM Product p";
+        TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
+        return query.getResultList();
     }
 
     @Override

@@ -9,8 +9,8 @@ import project.warehouse.entity.Inventory;
 import project.warehouse.entity.Location;
 import project.warehouse.entity.Product;
 import project.warehouse.foundation.interfaces.IInventoryRepository;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Repository
 public class InventoryRepository implements IInventoryRepository {
@@ -25,6 +25,14 @@ public class InventoryRepository implements IInventoryRepository {
         query.setParameter("product", product);
         query.setParameter("location", location);
         return query.getResultStream().findFirst();
+    }
+
+    @Override
+    public List<Inventory> findByProductId(Integer productId) {
+        String jpql = "SELECT i FROM Inventory i WHERE i.product.id = :productId";
+        TypedQuery<Inventory> query = entityManager.createQuery(jpql, Inventory.class);
+        query.setParameter("productId", productId);
+        return query.getResultList();
     }
 
     @Override
@@ -123,15 +131,22 @@ public class InventoryRepository implements IInventoryRepository {
     @Override
     public List<Inventory> findAllWithDetails() {
         String jpql = "SELECT DISTINCT i FROM Inventory i " +
-                      "LEFT JOIN FETCH i.product p " +
-                      "LEFT JOIN FETCH p.category " +
-                      "LEFT JOIN FETCH p.unit " +
-                      "LEFT JOIN FETCH i.location l " +
-                      "LEFT JOIN FETCH l.warehouse " +
-                      "LEFT JOIN FETCH l.type " +
-                      "ORDER BY l.warehouse.id, l.id, p.id";
+                "LEFT JOIN FETCH i.product p " +
+                "LEFT JOIN FETCH p.category " +
+                "LEFT JOIN FETCH p.unit " +
+                "LEFT JOIN FETCH i.location l " +
+                "LEFT JOIN FETCH l.warehouse " +
+                "LEFT JOIN FETCH l.type " +
+                "ORDER BY l.warehouse.id, l.id, p.id";
 
-        return entityManager.createQuery(jpql, Inventory.class).getResultList();
+        List<Inventory> result = entityManager.createQuery(jpql, Inventory.class).getResultList();
+
+        Map<Integer, Inventory> uniqueMap = new LinkedHashMap<>();
+        for (Inventory inv : result) {
+            uniqueMap.putIfAbsent(inv.getId(), inv);
+        }
+
+        return new ArrayList<>(uniqueMap.values());
     }
 
     @Override

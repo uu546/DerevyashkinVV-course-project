@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import project.warehouse.control.dto.*;
 import project.warehouse.mediator.interfaces.IMovementService;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/movements")
 public class MovementController {
@@ -40,10 +44,14 @@ public class MovementController {
      * POST /api/movements/receipt/batch
      */
     @PostMapping("/receipt/batch")
-    public ResponseEntity<String> createBatchReceipt(@Valid @RequestBody ReceiptBatchRequest request) {
+    public ResponseEntity<Map<String, String>> createBatchReceipt(@Valid @RequestBody ReceiptBatchRequest request) {
         movementService.createBatchReceipt(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Товары успешно добавлены на склад");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Товары успешно добавлены на склад");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
@@ -67,10 +75,14 @@ public class MovementController {
     }
 
     @PostMapping("/shipment/batch")
-    public ResponseEntity<String> createBatchShipment(@Valid @RequestBody ShipmentBatchRequest request) {
+    public ResponseEntity<Map<String, String>> createBatchShipment(@Valid @RequestBody ShipmentBatchRequest request) {
         movementService.createBatchShipment(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Товары успешно отгружены со склада");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Товары успешно отгружены со склада");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 

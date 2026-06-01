@@ -109,4 +109,23 @@ public class InventoryQueryService implements IInventoryQueryService {
 
         return new InventorySummaryResponse(warehouseDtos, totalSummary);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductLocationStockDto> getProductStockByLocations(Integer productId) {
+        List<Inventory> inventories = inventoryRepository.findByProductId(productId);
+
+        return inventories.stream()
+                .filter(inv -> inv.getQuantity() > 0)
+                .map(inv -> new ProductLocationStockDto(
+                        inv.getLocation().getId(),
+                        inv.getLocation().getName(),
+                        inv.getLocation().getFullName(),
+                        inv.getLocation().getType().getTitle(),
+                        inv.getLocation().getWarehouse().getName(),
+                        inv.getQuantity(),
+                        inv.getProduct().getUnit().getTitle()
+                ))
+                .collect(Collectors.toList());
+    }
 }

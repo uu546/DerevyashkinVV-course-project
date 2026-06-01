@@ -14,7 +14,7 @@ public interface IMovementService {
      */
     Movement createReceipt(Integer productId, Integer toLocationId, Integer quantity);
 
-    void createBatchReceipt(ReceiptBatchRequest request);  // ← void, без ответа
+    void createBatchReceipt(ReceiptBatchRequest request);
 
     /**
      * Отгрузка товара со склада

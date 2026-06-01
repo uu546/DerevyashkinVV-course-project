@@ -16,6 +16,7 @@ public interface IInventoryRepository {
      */
     Optional<Inventory> findByProductAndLocation(Product product, Location location);
     Optional<Inventory> findById(Integer id);
+    List<Inventory> findByProductId(Integer productId);
     void deleteById(Integer id);
     void addQuantity(Integer productId, Integer locationId, Integer quantity);
     void subtractQuantity(Integer productId, Integer locationId, Integer quantity);
