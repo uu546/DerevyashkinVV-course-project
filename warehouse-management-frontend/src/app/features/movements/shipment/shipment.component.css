@@ -1,0 +1,99 @@
+.stock-info {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  border: 1px solid #b8d4f0;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.no-stock-warning {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+  color: #856404;
+  font-size: 14px;
+}
+
+.warning {
+  margin-top: 5px;
+  padding: 8px;
+  background-color: #fff3cd;
+  border-radius: 5px;
+  color: #856404;
+  font-size: 13px;
+}
+.stock-info h4 {
+  margin: 0 0 10px 0;
+  color: #0056b3;
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.stock-table th,
+.stock-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.stock-table th {
+  background-color: #e6f3ff;
+}
+
+.stock-table tr.low-stock {
+  background-color: #fff3cd;
+}
+
+.stock-table tr.low-stock td:first-child {
+  border-left: 3px solid #ffc107;
+}
+
+.hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.item-row {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+.input-group {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.input-group .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+h3 {
+  margin: 20px 0 15px;
+  color: #555;
+}
