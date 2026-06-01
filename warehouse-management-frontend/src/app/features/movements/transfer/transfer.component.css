@@ -1,0 +1,143 @@
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.stock-info {
+  margin: 15px 0;
+  padding: 12px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  border: 1px solid #b8d4f0;
+}
+
+.stock-info h4 {
+  margin: 0 0 10px 0;
+  color: #0056b3;
+  font-size: 14px;
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.stock-table th,
+.stock-table td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.stock-table th {
+  background-color: #e6f3ff;
+}
+
+.stock-table tr.low-stock {
+  background-color: #fff3cd;
+}
+
+.transfer-info {
+  margin: 15px 0;
+  padding: 12px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  border: 1px solid #c8e6c9;
+}
+
+.transfer-info h4 {
+  margin: 0 0 8px 0;
+  color: #2e7d32;
+  font-size: 14px;
+}
+
+.transfer-info p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.warning {
+  color: #ffc107;
+  font-size: 12px;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #fff3cd;
+  border-radius: 4px;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.error-message {
+  color: #dc3545;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8d7da;
+  border-radius: 5px;
+}
+
+.no-stock-warning {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 5px;
+  color: #856404;
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+select:focus,
+input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

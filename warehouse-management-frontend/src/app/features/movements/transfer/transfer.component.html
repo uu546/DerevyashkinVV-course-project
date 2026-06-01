@@ -1,0 +1,152 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Перемещение товара</h1>
+  </div>
+
+  <div class="card">
+    <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+      <!-- Выбор товара -->
+      <div class="form-group">
+        <label>Товар</label>
+        <select formControlName="productId">
+          <option value="">-- Выберите товар --</option>
+          @for (product of products(); track product.id) {
+            <option [value]="product.id">
+              {{ product.name }} ({{ product.unit }}) - ID: {{ product.id }}
+            </option>
+          }
+        </select>
+        @if (productId?.invalid && productId?.touched) {
+          <div class="error">Выберите товар</div>
+        }
+      </div>
+
+      <!-- Информация о доступных остатках выбранного товара -->
+      @if (productId?.value) {
+        @if (hasStock() && availableStocks().length > 0) {
+          <div class="stock-info">
+            <h4>Доступные остатки для выбранного товара:</h4>
+            <table class="stock-table">
+              <thead>
+                <tr>
+                  <th>Склад</th>
+                  <th>Ячейка</th>
+                  <th>Тип ячейки</th>
+                  <th>Количество</th>
+                  <th>Ед. изм.</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (stock of availableStocks(); track stock.locationId) {
+                  <tr>
+                    <td>{{ stock.warehouseName }}</td>
+                    <td>{{ stock.locationFullName }}</td>
+                    <td>{{ stock.locationType }}</td>
+                    <td>{{ stock.quantity }}</td>
+                    <td>{{ stock.unit }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="no-stock-warning">
+            ⚠️ У выбранного товара нет остатков ни в одной ячейке. Перемещение невозможно.
+          </div>
+        }
+      }
+
+      <!-- Выбор исходной ячейки -->
+      <div class="form-group">
+        <label>Из ячейки</label>
+        <select formControlName="fromLocationId" [disabled]="!hasStock()">
+          <option value="">-- Сначала выберите товар --</option>
+          @for (stock of availableStocks(); track stock.locationId) {
+            <option [value]="stock.locationId">
+              {{ getLocationDisplayName(stock) }}
+            </option>
+          }
+        </select>
+        @if (fromLocationId?.invalid && fromLocationId?.touched) {
+          <div class="error">Выберите исходную ячейку</div>
+        }
+        @if (!isLocationValid() && fromLocationId?.value) {
+          <div class="error">В выбранной ячейке нет этого товара</div>
+        }
+      </div>
+
+      <!-- Выбор целевой ячейки -->
+      <div class="form-group">
+        <label>В ячейку</label>
+        <select formControlName="toLocationId" [disabled]="!fromLocationId?.value">
+          <option value="">-- Сначала выберите исходную ячейку --</option>
+          @for (location of availableTargetLocations(); track location.id) {
+            <option [value]="location.id">
+              {{ getTargetLocationDisplayName(location) }}
+            </option>
+          }
+        </select>
+        @if (toLocationId?.invalid && toLocationId?.touched) {
+          <div class="error">Выберите целевую ячейку</div>
+        }
+        @if (availableTargetLocations().length === 0 && fromLocationId?.value) {
+          <div class="warning">Нет доступных ячеек для перемещения</div>
+        }
+      </div>
+
+      <!-- Количество -->
+      <div class="form-group">
+        <label>Количество</label>
+        <input
+          type="number"
+          formControlName="quantity"
+          placeholder="Количество"
+          min="1"
+          [max]="maxQuantity()"
+          [disabled]="!toLocationId?.value"
+        />
+        @if (transferForm.get('quantity')?.invalid && transferForm.get('quantity')?.touched) {
+          @if (transferForm.get('quantity')?.errors?.['required']) {
+            <div class="error">Введите количество</div>
+          }
+          @if (transferForm.get('quantity')?.errors?.['min']) {
+            <div class="error">Количество должно быть больше 0</div>
+          }
+          @if (transferForm.get('quantity')?.errors?.['max']) {
+            <div class="error">Максимальное доступное количество: {{ maxQuantity() }}</div>
+          }
+        }
+      </div>
+
+      <!-- Краткая информация о перемещении -->
+      @if (fromLocationId?.value && toLocationId?.value && maxQuantity() > 0) {
+        <div class="transfer-info">
+          <h4>Информация о перемещении:</h4>
+          <p>
+            Перемещение товара <strong>{{ getProductName() }}</strong
+            ><br />
+            из ячейки <strong>{{ getFromLocationName() }}</strong
+            ><br />
+            в ячейку <strong>{{ getToLocationName() }}</strong
+            ><br />
+            Количество: <strong>{{ transferForm.get('quantity')?.value || 0 }}</strong>
+          </p>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="error-message">{{ errorMessage() }}</div>
+      }
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isLoading() || !hasStock() || !toLocationId?.value"
+        >
+          {{ isLoading() ? 'Перемещение...' : 'Переместить товар' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
