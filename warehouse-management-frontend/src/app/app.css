@@ -1,0 +1,179 @@
+/* Глобальные стили для всего приложения */
+:host ::ng-deep * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+:host ::ng-deep .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Кнопки */
+:host ::ng-deep .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+:host ::ng-deep .btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+:host ::ng-deep .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+:host ::ng-deep .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+:host ::ng-deep .btn-secondary:hover {
+  background-color: #545b62;
+}
+
+:host ::ng-deep .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+:host ::ng-deep .btn-add {
+  background-color: #28a745;
+  color: white;
+  margin-top: 10px;
+}
+
+:host ::ng-deep .btn-add:hover {
+  background-color: #218838;
+}
+
+/* Формы */
+:host ::ng-deep .form-group {
+  margin-bottom: 15px;
+}
+
+:host ::ng-deep label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+:host ::ng-deep input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+:host ::ng-deep input:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+:host ::ng-deep .error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+:host ::ng-deep .error-message {
+  color: #dc3545;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border-radius: 5px;
+}
+
+:host ::ng-deep .success-message {
+  color: #28a745;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #d4edda;
+  border-radius: 5px;
+}
+
+/* Таблицы */
+:host ::ng-deep table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+:host ::ng-deep th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+:host ::ng-deep th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+/* Карточки */
+:host ::ng-deep .card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Заголовки страниц */
+:host ::ng-deep .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #007bff;
+}
+
+:host ::ng-deep .page-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+/* Группа полей ввода */
+:host ::ng-deep .input-group {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+:host ::ng-deep .input-group .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
