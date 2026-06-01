@@ -1,0 +1,37 @@
+.item-row {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.input-group {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.input-group .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+h3 {
+  margin: 20px 0 15px;
+  color: #555;
+}
