@@ -1,0 +1,17 @@
+<header>
+  <div class="logo">
+    <a routerLink="/inventory/summary">СкладPro</a>
+  </div>
+  <nav>
+    <a routerLink="/inventory/summary">Остатки</a>
+    <a routerLink="/movements/receipt">Приёмка</a>
+    <a routerLink="/movements/shipment">Отгрузка</a>
+    <a routerLink="/movements/transfer">Перемещение</a>
+  </nav>
+  @if (user() !== null) {
+    <div class="user-info">
+      <span>{{ user().fullName }}</span>
+      <button class="btn-logout" (click)="logout()">Выйти</button>
+    </div>
+  }
+</header>
