@@ -4,6 +4,7 @@ import { MovementService } from '../movement.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ReferenceService } from '../../../core/services/reference.service';
+import { RoleService } from '../../../core/services/role.service';
 
 @Component({
   selector: 'app-receipt',
@@ -16,7 +17,7 @@ export class ReceiptComponent implements OnInit {
   private movementService = inject(MovementService);
   private referenceService = inject(ReferenceService);
   private router = inject(Router);
-
+  roleService = inject(RoleService);
   receiptForm: FormGroup = this.fb.group({
     toLocationId: ['', [Validators.required]],
     items: this.fb.array([]),

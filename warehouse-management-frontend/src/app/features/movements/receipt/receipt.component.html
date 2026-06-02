@@ -1,70 +1,82 @@
 <div class="container">
   <div class="page-header">
     <h1>Приёмка товаров</h1>
+
+    @if (!roleService.isManager()) {
+      <div class="warning">У вас нет прав для выполнения этой операции</div>
+    }
   </div>
 
   <div class="card">
     <form [formGroup]="receiptForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label>Локация (ячейка) для приёмки</label>
-        <select formControlName="toLocationId">
-          <option value="">-- Выберите локацию --</option>
-          @for (location of locations(); track location.id) {
-            <option [value]="location.id">
-              {{ location.fullName}} {{location.typeTitle}}  (ID: {{ location.id }})
-            </option>
-          }
-        </select>
-
-        @if (receiptForm.get('toLocationId')?.invalid && receiptForm.get('toLocationId')?.touched) {
-          <div class="error">Выберите локацию</div>
-        }
-      </div>
-
-      <h3>Товары в поставке</h3>
-
-      <div formArrayName="items">
-        @for (item of items.controls; track $index; let i = $index) {
-          <div class="item-row" [formGroupName]="i">
-            <div class="input-group">
-              <div class="form-group">
-                <label>Товар</label>
-                <select formControlName="productId">
-                  <option value="">-- Выберите товар --</option>
-                  @for (product of products(); track product.id) {
-                    <option [value]="product.id">
-                      {{ product.name }} ({{ product.unit }}) - ID: {{ product.id }}
-                    </option>
-                  }
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Количество</label>
-                <input type="number" formControlName="quantity" placeholder="Количество" />
-                @if (item.get('quantity')?.invalid && item.get('quantity')?.touched) {
-                  <div class="error">Количество должно быть больше 0</div>
-                }
-              </div>
-              <button type="button" class="btn btn-danger" (click)="removeItem(i)">Удалить</button>
-            </div>
-            @if (item.get('productId')?.invalid && item.get('productId')?.touched) {
-              <div class="error">Выберите товар</div>
+      <!-- <fieldset [disabled]="!roleService.isManager()"> -->
+        <div class="form-group">
+          <label>Локация (ячейка) для приёмки</label>
+          <select formControlName="toLocationId">
+            <option value="">-- Выберите локацию --</option>
+            @for (location of locations(); track location.id) {
+              <option [value]="location.id">
+                {{ location.fullName }} {{ location.typeTitle }} (ID: {{ location.id }})
+              </option>
             }
-          </div>
-        }
-      </div>
+          </select>
 
-      <button type="button" class="btn btn-secondary" (click)="addItem()">+ Добавить товар</button>
+          @if (
+            receiptForm.get('toLocationId')?.invalid && receiptForm.get('toLocationId')?.touched
+          ) {
+            <div class="error">Выберите локацию</div>
+          }
+        </div>
 
-      @if (errorMessage()) {
-        <div class="error-message">{{ errorMessage() }}</div>
-      }
+        <h3>Товары в поставке</h3>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
-          {{ isLoading() ? 'Обработка...' : 'Оформить приёмку' }}
+        <div formArrayName="items">
+          @for (item of items.controls; track $index; let i = $index) {
+            <div class="item-row" [formGroupName]="i">
+              <div class="input-group">
+                <div class="form-group">
+                  <label>Товар</label>
+                  <select formControlName="productId">
+                    <option value="">-- Выберите товар --</option>
+                    @for (product of products(); track product.id) {
+                      <option [value]="product.id">
+                        {{ product.name }} ({{ product.unit }}) - ID: {{ product.id }}
+                      </option>
+                    }
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Количество</label>
+                  <input type="number" formControlName="quantity" placeholder="Количество" />
+                  @if (item.get('quantity')?.invalid && item.get('quantity')?.touched) {
+                    <div class="error">Количество должно быть больше 0</div>
+                  }
+                </div>
+                <button type="button" class="btn btn-danger" (click)="removeItem(i)">
+                  Удалить
+                </button>
+              </div>
+              @if (item.get('productId')?.invalid && item.get('productId')?.touched) {
+                <div class="error">Выберите товар</div>
+              }
+            </div>
+          }
+        </div>
+
+        <button type="button" class="btn btn-secondary" (click)="addItem()">
+          + Добавить товар
         </button>
-      </div>
+
+        @if (errorMessage()) {
+          <div class="error-message">{{ errorMessage() }}</div>
+        }
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="isLoading()">
+            {{ isLoading() ? 'Обработка...' : 'Оформить приёмку' }}
+          </button>
+        </div>
+      <!-- </fieldset> -->
     </form>
   </div>
 </div>

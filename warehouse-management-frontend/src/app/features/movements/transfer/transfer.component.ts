@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { InventoryService } from '../../inventory/inventory.service';
 import { ProductStock } from '../../inventory/models/product-stock';
 import { Location } from '../../movements/models/location';
+import { RoleService } from '../../../core/services/role.service';
 
 @Component({
   selector: 'app-transfer',
@@ -21,7 +22,7 @@ export class TransferComponent implements OnInit, OnDestroy {
   private referenceService = inject(ReferenceService);
   private inventoryService = inject(InventoryService);
   private router = inject(Router);
-
+roleService = inject(RoleService);
   transferForm: FormGroup = this.fb.group({
     productId: ['', [Validators.required]],
     fromLocationId: ['', [Validators.required]],

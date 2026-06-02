@@ -1,145 +1,155 @@
 <div class="container">
   <div class="page-header">
     <h1>Отгрузка товаров</h1>
+
+     @if (!roleService.isManager()) {
+      <div class="warning">У вас нет прав для выполнения этой операции</div>
+    }
   </div>
 
   <div class="card">
     <form [formGroup]="shipmentForm" (ngSubmit)="onSubmit()">
-      <!-- Общая ячейка для отгрузки -->
-      <div class="form-group location-group">
-        <label>Ячейка для отгрузки</label>
-        <select formControlName="fromLocationId" (change)="updateMaxQuantities()">
-          <option value="">-- Сначала выберите товар --</option>
-          @for (location of availableLocations(); track location.locationId) {
-            <option [value]="location.locationId">
-              {{ getLocationDisplayName(location) }}
-            </option>
-          }
-        </select>
+      <!-- <fieldset [disabled]="!roleService.isManager()"> -->
+        <!-- Общая ячейка для отгрузки -->
+        <div class="form-group location-group">
+          <label>Ячейка для отгрузки</label>
+          <select formControlName="fromLocationId" (change)="updateMaxQuantities()">
+            <option value="">-- Сначала выберите товар --</option>
+            @for (location of availableLocations(); track location.locationId) {
+              <option [value]="location.locationId">
+                {{ getLocationDisplayName(location) }}
+              </option>
+            }
+          </select>
 
-        <!-- @if (availableLocations().length === 0 && items.length > 0 && !allItemsNoStock()) {
+          <!-- @if (availableLocations().length === 0 && items.length > 0 && !allItemsNoStock()) {
           <div class="warning">Нет общей ячейки, где есть все выбранные товары</div>
         } -->
 
-        @if (fromLocationId?.invalid && fromLocationId?.touched) {
-          <div class="error">Выберите ячейку для отгрузки</div>
-        }
-      </div>
+          @if (fromLocationId?.invalid && fromLocationId?.touched) {
+            <div class="error">Выберите ячейку для отгрузки</div>
+          }
+        </div>
 
-      <h3>Товары к отгрузке</h3>
+        <h3>Товары к отгрузке</h3>
 
-      <div formArrayName="items">
-        @for (item of items.controls; track $index; let i = $index) {
-          <div class="item-row" [formGroupName]="i">
-            <div class="input-group">
-              <div class="form-group">
-                <label>Товар</label>
-                <select formControlName="productId">
-                  <option value="">-- Выберите товар --</option>
-                  @for (product of products(); track product.id) {
-                    <option [value]="product.id">
-                      {{ product.name }} ({{ product.unit }}) - ID: {{ product.id }}
-                    </option>
-                  }
-                </select>
-                @if (item.get('productId')?.invalid && item.get('productId')?.touched) {
-                  <div class="error">Выберите товар</div>
-                }
-              </div>
-
-              <div class="form-group">
-                <label>Количество</label>
-                <input
-                  type="number"
-                  formControlName="quantity"
-                  placeholder="Количество"
-                  min="1"
-                  [max]="getMaxQuantityForItem(i)"
-                  [disabled]="isItemOutOfStock(i)"
-                />
-                @if (item.get('quantity')?.invalid && item.get('quantity')?.touched) {
-                  @if (item.get('quantity')?.errors?.['required']) {
-                    <div class="error">Введите количество</div>
-                  }
-                  @if (item.get('quantity')?.errors?.['min']) {
-                    <div class="error">Количество должно быть больше 0</div>
-                  }
-                  @if (item.get('quantity')?.errors?.['max']) {
-                    <div class="error">
-                      Максимальное доступное количество: {{ getMaxQuantityForItem(i) }}
-                    </div>
-                  }
-                }
-              </div>
-
-              <button type="button" class="btn btn-danger" (click)="removeItem(i)">Удалить</button>
-            </div>
-
-            <!-- Сообщение, если у товара нет остатков -->
-            @if (isItemOutOfStock(i)) {
-              <div class="no-stock-warning">
-                ⚠️ У выбранного товара нет остатков ни в одной ячейке. Отгрузка невозможна.
-              </div>
-            }
-
-            <!-- Информация о доступных остатках для текущего товара (если есть) -->
-            @if (
-              !isItemOutOfStock(i) &&
-              item.get('productId')?.value &&
-              getAvailableStocksForItem(i).length > 0
-            ) {
-              <div class="stock-info">
-                <h4>Доступные остатки для выбранного товара:</h4>
-                <table class="stock-table">
-                  <thead>
-                    <tr>
-                      <th>Склад</th>
-                      <th>Ячейка</th>
-                      <th>Тип ячейки</th>
-                      <th>Количество</th>
-                      <th>Ед. изм.</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (stock of getAvailableStocksForItem(i); track stock.locationId) {
-                      <!-- <tr [class.low-stock]="stock.quantity < 10"> -->
-                      <tr>
-                        <td>{{ stock.warehouseName }}</td>
-                        <td>{{ stock.locationName }}</td>
-                        <td>{{ stock.locationType }}</td>
-                        <td>{{ stock.quantity }}</td>
-                        <td>{{ stock.unit }}</td>
-                      </tr>
+        <div formArrayName="items">
+          @for (item of items.controls; track $index; let i = $index) {
+            <div class="item-row" [formGroupName]="i">
+              <div class="input-group">
+                <div class="form-group">
+                  <label>Товар</label>
+                  <select formControlName="productId">
+                    <option value="">-- Выберите товар --</option>
+                    @for (product of products(); track product.id) {
+                      <option [value]="product.id">
+                        {{ product.name }} ({{ product.unit }}) - ID: {{ product.id }}
+                      </option>
                     }
-                  </tbody>
-                </table>
+                  </select>
+                  @if (item.get('productId')?.invalid && item.get('productId')?.touched) {
+                    <div class="error">Выберите товар</div>
+                  }
+                </div>
+
+                <div class="form-group">
+                  <label>Количество</label>
+                  <input
+                    type="number"
+                    formControlName="quantity"
+                    placeholder="Количество"
+                    min="1"
+                    [max]="getMaxQuantityForItem(i)"
+                    [disabled]="isItemOutOfStock(i)"
+                  />
+                  @if (item.get('quantity')?.invalid && item.get('quantity')?.touched) {
+                    @if (item.get('quantity')?.errors?.['required']) {
+                      <div class="error">Введите количество</div>
+                    }
+                    @if (item.get('quantity')?.errors?.['min']) {
+                      <div class="error">Количество должно быть больше 0</div>
+                    }
+                    @if (item.get('quantity')?.errors?.['max']) {
+                      <div class="error">
+                        Максимальное доступное количество: {{ getMaxQuantityForItem(i) }}
+                      </div>
+                    }
+                  }
+                </div>
+
+                <button type="button" class="btn btn-danger" (click)="removeItem(i)">
+                  Удалить
+                </button>
               </div>
-            }
+
+              <!-- Сообщение, если у товара нет остатков -->
+              @if (isItemOutOfStock(i)) {
+                <div class="no-stock-warning">
+                  ⚠️ У выбранного товара нет остатков ни в одной ячейке. Отгрузка невозможна.
+                </div>
+              }
+
+              <!-- Информация о доступных остатках для текущего товара (если есть) -->
+              @if (
+                !isItemOutOfStock(i) &&
+                item.get('productId')?.value &&
+                getAvailableStocksForItem(i).length > 0
+              ) {
+                <div class="stock-info">
+                  <h4>Доступные остатки для выбранного товара:</h4>
+                  <table class="stock-table">
+                    <thead>
+                      <tr>
+                        <th>Склад</th>
+                        <th>Ячейка</th>
+                        <th>Тип ячейки</th>
+                        <th>Количество</th>
+                        <th>Ед. изм.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (stock of getAvailableStocksForItem(i); track stock.locationId) {
+                        <!-- <tr [class.low-stock]="stock.quantity < 10"> -->
+                        <tr>
+                          <td>{{ stock.warehouseName }}</td>
+                          <td>{{ stock.locationName }}</td>
+                          <td>{{ stock.locationType }}</td>
+                          <td>{{ stock.quantity }}</td>
+                          <td>{{ stock.unit }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        @if (allItemsNoStock()) {
+          <div class="error-message">
+            ⚠️ Ни один из выбранных товаров не имеет остатков на складе. Отгрузка невозможна.
           </div>
         }
-      </div>
 
-      @if (allItemsNoStock()) {
-        <div class="error-message">
-          ⚠️ Ни один из выбранных товаров не имеет остатков на складе. Отгрузка невозможна.
-        </div>
-      }
-
-      <button type="button" class="btn btn-secondary" (click)="addItem()">+ Добавить товар</button>
-
-      @if (errorMessage()) {
-        <div class="error-message">{{ errorMessage() }}</div>
-      }
-
-      <div class="form-actions">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="isLoading() || allItemsNoStock() || availableLocations().length === 0"
-        >
-          {{ isLoading() ? 'Обработка...' : 'Оформить отгрузку' }}
+        <button type="button" class="btn btn-secondary" (click)="addItem()">
+          + Добавить товар
         </button>
-      </div>
+
+        @if (errorMessage()) {
+          <div class="error-message">{{ errorMessage() }}</div>
+        }
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isLoading() || allItemsNoStock() || availableLocations().length === 0"
+          >
+            {{ isLoading() ? 'Обработка...' : 'Оформить отгрузку' }}
+          </button>
+        </div>
+      <!-- </fieldset> -->
     </form>
   </div>
 </div>

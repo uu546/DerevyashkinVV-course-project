@@ -66,11 +66,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-               //         .requestMatchers("/swagger-ui/**").permitAll()
-                      //  .requestMatchers("/swagger-ui.html").permitAll()
-                     //   .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/movements/**").authenticated()
                         .requestMatchers("/api/inventory/**").authenticated()
+                                // Операции изменения (только для MANAGER)
+                                .requestMatchers("/api/movements/**").hasRole("MANAGER")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

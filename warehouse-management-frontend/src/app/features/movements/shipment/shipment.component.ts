@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductStock } from '../../inventory/models/product-stock';
 import { InventoryService } from '../../inventory/inventory.service';
+import { RoleService } from '../../../core/services/role.service';
 
 @Component({
   selector: 'app-shipment',
@@ -28,14 +29,14 @@ export class ShipmentComponent implements OnInit, OnDestroy {
 
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
-
+  roleService = inject(RoleService);
   private subscriptions: Map<number, Subscription> = new Map();
   availableStocksMap = signal<Map<number, ProductStock[]>>(new Map());
   availableLocations = signal<ProductStock[]>([]);
   maxQuantities = signal<Map<number, number>>(new Map());
 
-  hasNoStock = signal<Map<number, boolean>>(new Map()); 
-  allItemsNoStock = signal(false); 
+  hasNoStock = signal<Map<number, boolean>>(new Map());
+  allItemsNoStock = signal(false);
 
   get items(): FormArray {
     return this.shipmentForm.get('items') as FormArray;

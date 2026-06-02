@@ -24,14 +24,6 @@ input {
   font-size: 14px;
 }
 
-.warning {
-  margin-top: 5px;
-  padding: 8px;
-  background-color: #fff3cd;
-  border-radius: 5px;
-  color: #856404;
-  font-size: 13px;
-}
 .stock-info h4 {
   margin: 0 0 10px 0;
   color: #0056b3;

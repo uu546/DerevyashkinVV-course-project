@@ -27,6 +27,7 @@ export const routes: Routes = [
   {
     path: 'movements',
     canActivate: [AuthGuard],
+    data: { role: 'MANAGER' },
     children: [
       {
         path: 'receipt',

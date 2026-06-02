@@ -33,6 +33,11 @@ export class StorageService {
     return user ? JSON.parse(user) : null;
   }
 
+  getUserRole(): string | null {
+    const user = this.getUser();
+    return user ? user.role : null;
+  }
+
   private hasToken(): boolean {
     return !!this.getToken();
   }
