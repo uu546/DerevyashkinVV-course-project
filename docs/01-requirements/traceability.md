@@ -8,8 +8,8 @@
 | Приёмка товаров на склад (поставка) | UC-02 | Inventory, Movement, Location | MUST |
 | Отгрузка товаров со склада | UC-03 | Inventory, Movement, Location | MUST |
 | Перемещение товаров между ячейками | UC-04 | Inventory, Movement, Location | SHOULD |
-| Просмотр актуальных остатков | — | Inventory, Product, Location | MUST |
-| Авторизация и разграничение доступа | — | User | MUST |
-| Формирование отчётности | — | Inventory, Movement | SHOULD |
+| Просмотр актуальных остатков | UC-05 | Inventory, Product, Location | MUST |
+| Авторизация и разграничение доступа | UC | User | MUST |
+| Формирование отчётности | UC-05 | Inventory, Movement | SHOULD |
 | Массовые операции  | UC-02, UC-03 | Inventory, Movement | COULD |
 | Интеграция со сканерами штрих-кодов | UC-02, UC-03 | Inventory, Movement | WON'T  |
