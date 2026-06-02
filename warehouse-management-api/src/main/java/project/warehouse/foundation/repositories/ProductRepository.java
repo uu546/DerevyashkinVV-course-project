@@ -18,6 +18,9 @@ public class ProductRepository  implements IProductRepository {
 
     @Override
     public Optional<Product> findById(Integer id) {
+        if (id == null) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(entityManager.find(Product.class, id));
     }
 
@@ -31,6 +34,9 @@ public class ProductRepository  implements IProductRepository {
     @Override
     @Transactional
     public void deleteById(Integer id) {
+        if (id == null) {
+            return;
+        }
         Product product = entityManager.find(Product.class, id);
         if (product != null) {
             entityManager.remove(product);
