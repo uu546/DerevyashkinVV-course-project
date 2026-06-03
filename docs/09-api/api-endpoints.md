@@ -360,3 +360,25 @@ http://localhost:8080/swagger
 | GET   | `/api/products/{id}`      | Получение товара по ID          | USER, MANAGER  |
 | GET   | `/api/locations`          | Получение списка локаций        | USER, MANAGER  |
 | GET   | `/api/locations/{id}`     | Получение локации по ID         | USER, MANAGER  |
+
+## Сводная таблица эндпоинтов REST API
+
+| № | Метод | Эндпоинт | Описание | Доступ |
+|---|--------|----------|----------|---------|
+|  | **Аутентификация (2 эндпоинта)** |  |  |  |
+| 1 | POST | /api/auth/login | Вход в систему | Публичный |
+| 2 | POST | /api/auth/register | Регистрация нового пользователя | Публичный |
+|  | **Движения товаров (3 эндпоинта)** |  |  |  |
+| 3 | POST | /api/movements/receipt/batch | Массовая приёмка товаров на склад | MANAGER |
+| 4 | POST | /api/movements/shipment/batch | Массовая отгрузка товаров со склада | MANAGER |
+| 5 | POST | /api/movements/move | Перемещение товара между ячейками | MANAGER |
+|  | **Информация об остатках (2 эндпоинта)** |  |  |  |
+| 6 | GET | /api/inventory/summary | Получение сводки по складу (статистика и детали) | USER, MANAGER |
+| 7 | GET | /api/inventory/product/{productId}/locations | Получение остатков товара по всем ячейкам | USER, MANAGER |
+|  | **Справочник товаров (2 эндпоинта)** |  |  |  |
+| 8 | GET | /api/products | Получение списка всех товаров | USER, MANAGER |
+| 9 | GET | /api/products/{id} | Получение товара по ID | USER, MANAGER |
+|  | **Справочник локаций (2 эндпоинта)** |  |  |  |
+| 10 | GET | /api/locations | Получение списка всех локаций (ячеек) | USER, MANAGER |
+| 11 | GET | /api/locations/{id} | Получение локации по ID | USER, MANAGER |
+| **Итого** | **11 эндпоинтов** |  |  |  |
